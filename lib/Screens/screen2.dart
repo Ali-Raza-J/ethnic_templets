@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
 class Screen2 extends StatelessWidget {
-  MyList2? model;
-
+  // MyProduct2? model;
+  int _totalcount = myproduct2.length + myBanar2.length + myText2.length;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -13,40 +13,46 @@ class Screen2 extends StatelessWidget {
           color: Colors.white,
         ),
         child: StaggeredGridView.countBuilder(
-          itemCount: myList2.length,
+          
+          itemCount: _totalcount % 21 == 0 
+          ? _totalcount + _totalcount~/21
+          : _totalcount + _totalcount~/21 + 1,
+          // myproduct2.length + myBanar2.length + myText2.length +2,
           crossAxisCount: 12,
           // crossAxisSpacing: 10,
           mainAxisSpacing: 5,
-          staggeredTileBuilder: (index) => index % 22 == 0 ||
-                  index % 22 == 10 ||
-                  index % 22 == 17
-              ? const StaggeredTile.count(12, 8.2)
-              : index == 1
-                  ? const StaggeredTile.count(12, 3)
-                  : index % 22 == 1 && index != 1
-                  ? const StaggeredTile.count(12, 1)
-                  : index % 22 == 3 ||
-                          (index + 1) % 22 == 3 ||
-                          (index - 1) % 22 == 3 ||
-                          index % 22 == 15 ||
-                          (index + 1) % 22 == 15 ||
-                          (index - 1) % 22 == 15 ||
-                          index % 22 == 19 ||
-                          (index + 1) % 22 == 19 ||
-                          (index - 1) % 22 == 19
-                      ? const StaggeredTile.count(4, 8.2)
-                      : index % 22 == 5 || index % 22 == 13 || index % 22 == 21
-                          ? const StaggeredTile.count(12, 8.2)
-                          : const StaggeredTile.count(6, 8.2),
+          staggeredTileBuilder: (index) =>
+              index % 22 == 0 || index % 22 == 10 || index % 22 == 17
+                  ? const StaggeredTile.count(12, 8.2)
+                  : index == 1
+                      ? const StaggeredTile.count(12, 3)
+                      : index % 22 == 1 && index != 1
+                          ? const StaggeredTile.count(12, 1)
+                          : index % 22 == 3 ||
+                                  (index + 1) % 22 == 3 ||
+                                  (index - 1) % 22 == 3 ||
+                                  index % 22 == 15 ||
+                                  (index + 1) % 22 == 15 ||
+                                  (index - 1) % 22 == 15 ||
+                                  index % 22 == 19 ||
+                                  (index + 1) % 22 == 19 ||
+                                  (index - 1) % 22 == 19
+                              ? const StaggeredTile.count(4, 8.2)
+                              : index % 22 == 5 ||
+                                      index % 22 == 13 ||
+                                      index % 22 == 21
+                                  ? const StaggeredTile.count(12, 8.2)
+                                  : const StaggeredTile.count(6, 8.2),
           itemBuilder: (context, index) {
-            model = myList2[index];
-            return index % 22 == 0 ||
-                  index % 22 == 10 ||
-                  index % 22 == 17
+            // model = myproduct2[index];
+            return index % 22 == 0 || index % 22 == 10 || index % 22 == 17
                 ? ImageTile1(
-                    image: model!.image,
-                    text1: model!.text1,
-                    text2: model!.text2,
+                    image: myBanar2[((index / 22) * 4 - (index / 22)).toInt()]
+                        .image,
+                    text1: myBanar2[((index / 22) * 4 - (index / 22)).toInt()]
+                        .text1,
+                    text2: myBanar2[((index / 22) * 4 - (index / 22)).toInt()]
+                        .text2,
                   )
                 : index == 1
                     ? Container(
@@ -69,178 +75,97 @@ class Screen2 extends StatelessWidget {
                       )
                     : index % 22 == 1 && index != 1
                         ? const SizedBox(height: 5)
-                        : index % 22 == 14 || index % 22 == 20
+                        : index % 22 == 14 //|| index % 22 == 20
                             ? textTile(
-                                text1: model!.text1,
-                                text2: model!.text2,
+                                text1: myText2[(index ~/ 22) * 2].text1,
+                                text2: myText2[(index ~/ 22) * 2].text2,
                               )
-                            : ImageTile2(
-                                image: model!.image,
-                                text1: model!.text1,
-                                text2: model!.text2,
-                              );
+                            : index % 22 == 20
+                                ? textTile(
+                                    text1:
+                                        myText2[((index ~/ 22) * 2) + 1].text1,
+                                    text2:
+                                        myText2[((index ~/ 22) * 2) + 1].text2,
+                                  )
+                                : index % 22 >= 2 && index % 22 <= 9
+                                    ? ImageTile2(
+                                        image: myproduct2[(index ~/ 22) * 16 +
+                                                ((index % 22) - 2)]
+                                            .image, //'assets/images/2.png',
+                                        text1: myproduct2[(index ~/ 22) * 16 +
+                                                ((index % 22) - 2)]
+                                            .text1, //'ROZANA SUITS',
+                                        text2: myproduct2[(index ~/ 22) * 16 +
+                                                ((index % 22) - 2)]
+                                            .text2, //'PKR 4,990.00',
+                                      )
+                                    : index % 11 >= 2 && index % 22 <= 13
+                                        ? ImageTile2(
+                                            image: myproduct2[
+                                                    (index ~/ 22) * 16 +
+                                                        ((index % 22) - 3)]
+                                                .image, //'assets/images/2.png',
+                                            text1: myproduct2[
+                                                    (index ~/ 22) * 16 +
+                                                        ((index % 22) - 3)]
+                                                .text1, //'ROZANA SUITS',
+                                            text2: myproduct2[
+                                                    (index ~/ 22) * 16 +
+                                                        ((index % 22) - 3)]
+                                                .text2, //'PKR 4,990.00',
+                                          )
+                                        : index % 22 == 15 || index % 22 == 16
+                                            ? ImageTile2(
+                                                image: myproduct2[
+                                                        (index ~/ 22) * 16 +
+                                                            ((index % 22) - 4)]
+                                                    .image, //'assets/images/2.png',
+                                                text1: myproduct2[
+                                                        (index ~/ 22) * 16 +
+                                                            ((index % 22) - 4)]
+                                                    .text1, //'ROZANA SUITS',
+                                                text2: myproduct2[
+                                                        (index ~/ 22) * 16 +
+                                                            ((index % 22) - 4)]
+                                                    .text2, //'PKR 4,990.00',
+                                              )
+                                            : index % 22 == 18 ||
+                                                    index % 22 == 19
+                                                ? ImageTile2(
+                                                    image: myproduct2[
+                                                            (index ~/ 22) * 16 +
+                                                                ((index % 22) -
+                                                                    5)]
+                                                        .image, //'assets/images/2.png',
+                                                    text1: myproduct2[
+                                                            (index ~/ 22) * 16 +
+                                                                ((index % 22) -
+                                                                    5)]
+                                                        .text1, //'ROZANA SUITS',
+                                                    text2: myproduct2[
+                                                            (index ~/ 22) * 16 +
+                                                                ((index % 22) -
+                                                                    5)]
+                                                        .text2, //'PKR 4,990.00',
+                                                  )
+                                                : ImageTile2(
+                                                    image: myproduct2[
+                                                            (index ~/ 22) * 16 +
+                                                                ((index % 22) -
+                                                                    6)]
+                                                        .image, //'assets/images/2.png',
+                                                    text1: myproduct2[
+                                                            (index ~/ 22) * 16 +
+                                                                ((index % 22) -
+                                                                    6)]
+                                                        .text1, //'ROZANA SUITS',
+                                                    text2: myproduct2[
+                                                            (index ~/ 22) * 16 +
+                                                                ((index % 22) -
+                                                                    6)]
+                                                        .text2, //'PKR 4,990.00',
+                                                  );
           },
-          // staggeredTiles: const [
-          //   StaggeredTile.count(12, 7), // 1
-          //   StaggeredTile.count(12, 3.7), // 2
-          //   StaggeredTile.count(4, 8), // 3
-          //   StaggeredTile.count(4, 8), // 3
-          //   StaggeredTile.count(4, 8), // 3
-          //   StaggeredTile.count(3, 8.2), // 4
-          //   StaggeredTile.count(6, 8.2), // 4
-          //   StaggeredTile.count(3, 8.2), // 4
-          //   StaggeredTile.count(6, 8.2), // 5
-          //   StaggeredTile.count(6, 8.2), // 5
-          //   StaggeredTile.count(6, 8.2), // 6
-          //   StaggeredTile.count(6, 8.2), // 6
-          //   StaggeredTile.count(12, 7), // 7
-          //   StaggeredTile.count(6, 8.2), // 8
-          //   StaggeredTile.count(6, 8.2), // 8
-          //   StaggeredTile.count(3, 8.2), // 9
-          //   StaggeredTile.count(6, 8.2), // 9
-          //   StaggeredTile.count(3, 8.2), // 9
-          //   StaggeredTile.count(4, 8.2), // 10
-          //   StaggeredTile.count(4, 8.2), // 10
-          //   StaggeredTile.count(4, 8.2), // 10
-          //   StaggeredTile.count(12, 7), // 11
-          //   StaggeredTile.count(4, 8.2), // 12
-          //   StaggeredTile.count(4, 8.2), // 12
-          //   StaggeredTile.count(4, 8.2), // 12
-          //   StaggeredTile.count(3, 8.2), // 13
-          //   StaggeredTile.count(6, 8.2), // 13
-          //   StaggeredTile.count(3, 8.2), // 13
-          // ],
-          // children: [
-          //   //-------------card1-----------
-          //   ImageTile1(
-          //     image: 'assets/images/1.png',
-          //     text1: 'ROZANA SUITS',
-          //     text2: 'PKR 4,990.00',
-          //   ),
-          //   //-------------text 2-----------
-          //   textTile(
-          //     text1: 'Fusion',
-          //     text2:
-          //         'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry`s standard dummy text ever since the 1500s.',
-          //   ),
-          //   //-------------card 3-----------
-          //   ImageTile2(
-          //     image: 'assets/images/2.png',
-          //     text1: 'ROZANA SUITS',
-          //     text2: 'PKR 4,990.00',
-          //   ),
-          //   ImageTile2(
-          //     image: 'assets/images/2.png',
-          //     text1: 'ROZANA SUITS',
-          //     text2: 'PKR 4,990.00',
-          //   ),
-          //   ImageTile2(
-          //     image: 'assets/images/2.png',
-          //     text1: 'ROZANA SUITS',
-          //     text2: 'PKR 4,990.00',
-          //   ),
-          //   //-------------card 4-----------
-          //   const SizedBox(),
-          //   ImageTile3(
-          //     image: 'assets/images/1.png',
-          //     text1: 'ROZANA SUITS',
-          //     text2: 'PKR 4,990.00',
-          //   ),
-          //   const SizedBox(),
-          //   //-------------card 5-----------
-          //   ImageTile2(
-          //     image: 'assets/images/2.png',
-          //     text1: 'ROZANA SUITS',
-          //     text2: 'PKR 4,990.00',
-          //   ),
-          //   ImageTile2(
-          //     image: 'assets/images/2.png',
-          //     text1: 'ROZANA SUITS',
-          //     text2: 'PKR 4,990.00',
-          //   ),
-          //   //-------------card 6-----------
-          //   ImageTile2(
-          //     image: 'assets/images/2.png',
-          //     text1: 'ROZANA SUITS',
-          //     text2: 'PKR 4,990.00',
-          //   ),
-          //   ImageTile2(
-          //     image: 'assets/images/2.png',
-          //     text1: 'ROZANA SUITS',
-          //     text2: 'PKR 4,990.00',
-          //   ),
-          //   //-------------card 7-----------
-          //   ImageTile1(
-          //     image: 'assets/images/1.png',
-          //     text1: 'ROZANA SUITS',
-          //     text2: 'PKR 4,990.00',
-          //   ),
-          //   //-------------card 8-----------
-          //   ImageTile2(
-          //     image: 'assets/images/2.png',
-          //     text1: 'ROZANA SUITS',
-          //     text2: 'PKR 4,990.00',
-          //   ),
-          //   ImageTile2(
-          //     image: 'assets/images/2.png',
-          //     text1: 'ROZANA SUITS',
-          //     text2: 'PKR 4,990.00',
-          //   ),
-          //   //-------------card 9-----------
-          //   const SizedBox(),
-          //   ImageTile3(
-          //     image: 'assets/images/1.png',
-          //     text1: 'ROZANA SUITS',
-          //     text2: 'PKR 4,990.00',
-          //   ),
-          //   const SizedBox(),
-          //   //-------------card 10-----------
-          //   textTile(
-          //     text1: 'Lorem ipsum dollar sit',
-          //     text2:
-          //         'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
-          //   ),
-          //   ImageTile2(
-          //     image: 'assets/images/2.png',
-          //     text1: 'ROZANA SUITS',
-          //     text2: 'PKR 4,990.00',
-          //   ),
-          //   ImageTile2(
-          //     image: 'assets/images/2.png',
-          //     text1: 'ROZANA SUITS',
-          //     text2: 'PKR 4,990.00',
-          //   ),
-          //   //-------------card 11-----------
-          //   ImageTile1(
-          //     image: 'assets/images/1.png',
-          //     text1: 'ROZANA SUITS',
-          //     text2: 'PKR 4,990.00',
-          //   ),
-          //   //-------------card 12-----------
-          //   ImageTile2(
-          //     image: 'assets/images/2.png',
-          //     text1: 'ROZANA SUITS',
-          //     text2: 'PKR 4,990.00',
-          //   ),
-          //   ImageTile2(
-          //     image: 'assets/images/2.png',
-          //     text1: 'ROZANA SUITS',
-          //     text2: 'PKR 4,990.00',
-          //   ),
-          //   textTile(
-          //     text1: 'Lorem ipsum dollar sit',
-          //     text2:
-          //         'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
-          //   ),
-          //   //-------------card 13------------
-          //   const SizedBox(),
-          //   ImageTile3(
-          //     image: 'assets/images/1.png',
-          //     text1: 'ROZANA SUITS',
-          //     text2: 'PKR 4,990.00',
-          //   ),
-          //   const SizedBox(),
-          // ],
         ),
       ),
     );
@@ -248,9 +173,13 @@ class Screen2 extends StatelessWidget {
 }
 
 class textTile extends StatelessWidget {
-  textTile({this.text1, this.text2});
+  textTile({
+    this.text1,
+    this.text2,
+  });
   String? text1;
   String? text2;
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -274,10 +203,15 @@ class textTile extends StatelessWidget {
 }
 
 class ImageTile1 extends StatelessWidget {
-  ImageTile1({this.image, this.text1, this.text2});
+  ImageTile1({
+    this.image,
+    this.text1,
+    this.text2,
+  });
   String? image;
   String? text1;
   String? text2;
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -285,29 +219,14 @@ class ImageTile1 extends StatelessWidget {
       child: Stack(
         alignment: Alignment.center,
         children: [
-          // Column(
-          // children: [
           SizedBox(
             height: 280,
             // width: double.infinity,
             child: Image.asset(
-              // 'assets/images/2.png',
               image!,
               fit: BoxFit.fill,
             ),
           ),
-          // const SizedBox(height: 20),
-          // Text(text1!, style: const TextStyle(fontSize: 12)),
-          // Text(
-          //   text2!,
-          //   style: const TextStyle(
-          //     fontWeight: FontWeight.bold,
-          //     fontSize: 12,
-          //     overflow: TextOverflow.ellipsis,
-          //   ),
-          // ),
-          //   ],
-          // ),
           Material(
             color: Colors.transparent,
             child: InkWell(
@@ -316,6 +235,7 @@ class ImageTile1 extends StatelessWidget {
               onTap: () {},
             ),
           ),
+          Text(text2!),
         ],
       ),
     );
@@ -369,140 +289,354 @@ class ImageTile2 extends StatelessWidget {
   }
 }
 
-
-
-class MyList2 {
+class MyProduct2 {
   String? image;
   String? text1;
   String? text2;
-  MyList2({this.image, this.text1, this.text2});
+  MyProduct2({this.image, this.text1, this.text2});
 }
 
-List<MyList2> myList2 = [
-  MyList2(
-    image: 'assets/images/1.png',
-    text1: 'ROZANA SUITS',
-    text2: 'PKR 4,990.00',
-  ),
-  //----------------------------
-  MyList2(
-    text1: 'Lorem ipsum dollar sit',
-    text2:
-        'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
-  ),
+class MyBanar2 {
+  String? image;
+  String? text1;
+  String? text2;
+  MyBanar2({this.image, this.text1, this.text2});
+}
+
+class MyText2 {
+  String? image;
+  String? text1;
+  String? text2;
+  MyText2({this.image, this.text1, this.text2});
+}
+
+List<MyProduct2> myproduct2 = [
+  // MyProduct2(
+  //   image: 'assets/images/1.png',
+  //   text1: 'ROZANA SUITS',
+  //   text2: 'PKR 4,990.00',
+  // ),
+  // //----------------------------
+  // MyProduct2(
+  //   text1: 'Lorem ipsum dollar sit',
+  //   text2:
+  //       'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
+  // ),
   //-------------------------------
-  MyList2(
+  MyProduct2(
     image: 'assets/images/2.png',
     text1: 'ROZANA SUITS',
     text2: 'PKR 4,990.00',
   ),
-  MyList2(
+  MyProduct2(
     image: 'assets/images/2.png',
     text1: 'ROZANA SUITS',
     text2: 'PKR 4,990.00',
   ),
-  MyList2(
-    image: 'assets/images/2.png',
-    text1: 'ROZANA SUITS',
-    text2: 'PKR 4,990.00',
-  ),
-  //------------------------------
-  MyList2(
+  MyProduct2(
     image: 'assets/images/2.png',
     text1: 'ROZANA SUITS',
     text2: 'PKR 4,990.00',
   ),
   //------------------------------
-  MyList2(
+  MyProduct2(
     image: 'assets/images/2.png',
     text1: 'ROZANA SUITS',
     text2: 'PKR 4,990.00',
   ),
-  MyList2(
+  //------------------------------
+  MyProduct2(
+    image: 'assets/images/2.png',
+    text1: 'ROZANA SUITS',
+    text2: 'PKR 4,990.00',
+  ),
+  MyProduct2(
     image: 'assets/images/2.png',
     text1: 'ROZANA SUITS',
     text2: 'PKR 4,990.00',
   ),
   //--------------------------------
-  MyList2(
+  MyProduct2(
     image: 'assets/images/2.png',
     text1: 'ROZANA SUITS',
     text2: 'PKR 4,990.00',
   ),
-  MyList2(
+  MyProduct2(
     image: 'assets/images/2.png',
     text1: 'ROZANA SUITS',
     text2: 'PKR 4,990.00',
   ),
-  //-----------------------------------
-  MyList2(
-    image: 'assets/images/1.png',
-    text1: 'ROZANA SUITS',
-    text2: 'PKR 4,990.00',
-  ),
+  // //-----------------------------------
+  // MyProduct2(
+  //   image: 'assets/images/1.png',
+  //   text1: 'ROZANA SUITS',
+  //   text2: 'PKR 4,990.00',
+  // ),
   //------------------------------------
-  MyList2(
+  MyProduct2(
     image: 'assets/images/2.png',
     text1: 'ROZANA SUITS',
     text2: 'PKR 4,990.00',
   ),
-  MyList2(
+  MyProduct2(
     image: 'assets/images/2.png',
     text1: 'ROZANA SUITS',
     text2: 'PKR 4,990.00',
   ),
   //--------------------------------------
-  MyList2(
+  MyProduct2(
     image: 'assets/images/2.png',
     text1: 'ROZANA SUITS',
     text2: 'PKR 4,990.00',
   ),
   //----------------------------------
-  MyList2(
-    text1: 'Lorem ipsum dollar sit',
-    text2:
-        'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
-  ),
-  MyList2(
+  // MyProduct2(
+  //   text1: 'Lorem ipsum dollar sit',
+  //   text2:
+  //       'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
+  // ),
+  MyProduct2(
     image: 'assets/images/2.png',
     text1: 'ROZANA SUITS',
     text2: 'PKR 4,990.00',
   ),
-  MyList2(
+  MyProduct2(
     image: 'assets/images/2.png',
     text1: 'ROZANA SUITS',
     text2: 'PKR 4,990.00',
   ),
   //------------------------------------
-  MyList2(
-    image: 'assets/images/1.png',
-    text1: 'ROZANA SUITS',
-    text2: 'PKR 4,990.00',
-  ),
+  // MyProduct2(
+  //   image: 'assets/images/1.png',
+  //   text1: 'ROZANA SUITS',
+  //   text2: 'PKR 4,990.00',
+  // ),
   //-----------------------------
-  MyList2(
+  MyProduct2(
     image: 'assets/images/2.png',
     text1: 'ROZANA SUITS',
     text2: 'PKR 4,990.00',
   ),
-  MyList2(
+  MyProduct2(
     image: 'assets/images/2.png',
     text1: 'ROZANA SUITS',
     text2: 'PKR 4,990.00',
   ),
-  MyList2(
-    text1: 'Lorem ipsum dollar sit',
-    text2:
-        'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
-  ),
+  // MyProduct2(
+  //   text1: 'Lorem ipsum dollar sit',
+  //   text2:
+  //       'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
+  // ),
   //-----------------------------
-  MyList2(
+  MyProduct2(
     image: 'assets/images/2.png',
     text1: 'ROZANA SUITS',
     text2: 'PKR 4,990.00',
   ),
 
   //--------------------------second list----------------------------
+  MyProduct2(
+    image: 'assets/images/2.png',
+    text1: 'ROZANA SUITS',
+    text2: 'PKR 4,990.00',
+  ),
+  MyProduct2(
+    image: 'assets/images/2.png',
+    text1: 'ROZANA SUITS',
+    text2: 'PKR 4,990.00',
+  ),
+  MyProduct2(
+    image: 'assets/images/2.png',
+    text1: 'ROZANA SUITS',
+    text2: 'PKR 4,990.00',
+  ),
+  //------------------------------
+  MyProduct2(
+    image: 'assets/images/2.png',
+    text1: 'ROZANA SUITS',
+    text2: 'PKR 4,990.00',
+  ),
+  //------------------------------
+  MyProduct2(
+    image: 'assets/images/2.png',
+    text1: 'ROZANA SUITS',
+    text2: 'PKR 4,990.00',
+  ),
+  MyProduct2(
+    image: 'assets/images/2.png',
+    text1: 'ROZANA SUITS',
+    text2: 'PKR 4,990.00',
+  ),
+  //--------------------------------
+  MyProduct2(
+    image: 'assets/images/2.png',
+    text1: 'ROZANA SUITS',
+    text2: 'PKR 4,990.00',
+  ),
+  MyProduct2(
+    image: 'assets/images/2.png',
+    text1: 'ROZANA SUITS',
+    text2: 'PKR 4,990.00',
+  ),
+  // //-----------------------------------
+  // MyProduct2(
+  //   image: 'assets/images/1.png',
+  //   text1: 'ROZANA SUITS',
+  //   text2: 'PKR 4,990.00',
+  // ),
+  //------------------------------------
+  MyProduct2(
+    image: 'assets/images/2.png',
+    text1: 'ROZANA SUITS',
+    text2: 'PKR 4,990.00',
+  ),
+  MyProduct2(
+    image: 'assets/images/2.png',
+    text1: 'ROZANA SUITS',
+    text2: 'PKR 4,990.00',
+  ),
+  //--------------------------------------
+  MyProduct2(
+    image: 'assets/images/2.png',
+    text1: 'ROZANA SUITS',
+    text2: 'PKR 4,990.00',
+  ),
+  //----------------------------------
+  // MyProduct2(
+  //   text1: 'Lorem ipsum dollar sit',
+  //   text2:
+  //       'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
+  // ),
+  MyProduct2(
+    image: 'assets/images/2.png',
+    text1: 'ROZANA SUITS',
+    text2: 'PKR 4,990.00',
+  ),
+  MyProduct2(
+    image: 'assets/images/2.png',
+    text1: 'ROZANA SUITS',
+    text2: 'PKR 4,990.00',
+  ),
+  //------------------------------------
+  // MyProduct2(
+  //   image: 'assets/images/1.png',
+  //   text1: 'ROZANA SUITS',
+  //   text2: 'PKR 4,990.00',
+  // ),
+  //-----------------------------
+  MyProduct2(
+    image: 'assets/images/2.png',
+    text1: 'ROZANA SUITS',
+    text2: 'PKR 4,990.00',
+  ),
+  MyProduct2(
+    image: 'assets/images/2.png',
+    text1: 'ROZANA SUITS',
+    text2: 'PKR 4,990.00',
+  ),
+  // MyProduct2(
+  //   text1: 'Lorem ipsum dollar sit',
+  //   text2:
+  //       'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
+  // ),
+  //-----------------------------
+  MyProduct2(
+    image: 'assets/images/2.png',
+    text1: 'ROZANA SUITS',
+    text2: 'PKR 4,990.00',
+  ),
+  //--------------------------third list----------------------------
+  MyProduct2(
+    image: 'assets/images/2.png',
+    text1: 'ROZANA SUITS',
+    text2: 'PKR 4,990.00',
+  ),
+  MyProduct2(
+    image: 'assets/images/2.png',
+    text1: 'ROZANA SUITS',
+    text2: 'PKR 4,990.00',
+  ),
+  MyProduct2( 
+    image: 'assets/images/2.png',
+    text1: 'ROZANA SUITS',
+    text2: 'PKR 4,990.00',
+  ),
+  //------------------------------
+  MyProduct2(
+    image: 'assets/images/2.png',
+    text1: 'ROZANA SUITS',
+    text2: 'PKR 4,990.00',
+  ),
+];
 
-  
+List<MyBanar2> myBanar2 = [
+  MyBanar2(
+    image: 'assets/images/1.png',
+    text1: 'ROZANA SUITS',
+    text2: 'PKR 4,990.00 1',
+  ),
+  //-----------------------------------
+  MyBanar2(
+    image: 'assets/images/1.png',
+    text1: 'ROZANA SUITS',
+    text2: 'PKR 4,990.00 2',
+  ),
+  //------------------------------------
+  MyBanar2(
+    image: 'assets/images/1.png',
+    text1: 'ROZANA SUITS',
+    text2: 'PKR 4,990.00 3',
+  ),
+
+  //--------------------------second list----------------------------
+  MyBanar2(
+    image: 'assets/images/1.png',
+    text1: 'ROZANA SUITS',
+    text2: 'PKR 4,990.00 4',
+  ),
+  //-----------------------------------
+  MyBanar2(
+    image: 'assets/images/1.png',
+    text1: 'ROZANA SUITS',
+    text2: 'PKR 4,990.00 5',
+  ),
+  //------------------------------------
+  MyBanar2(
+    image: 'assets/images/1.png',
+    text1: 'ROZANA SUITS',
+    text2: 'PKR 4,990.00 6',
+  ),
+  //---------------------------------third--------------------------
+  MyBanar2(
+    image: 'assets/images/1.png',
+    text1: 'ROZANA SUITS',
+    text2: 'PKR 4,990.00 6',
+  ),
+];
+
+List<MyText2> myText2 = [
+  MyText2(
+    text1: 'Lorem ipsum dollar sit 1',
+    text2:
+        'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
+  ),
+  //-------------------------------
+  MyText2(
+    text1: 'Lorem ipsum dollar sit 2',
+    text2:
+        'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
+  ),
+
+  //--------------------------second list----------------------------
+  MyText2(
+    text1: 'Lorem ipsum dollar sit 3',
+    text2:
+        'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
+  ),
+  //-------------------------------
+  MyText2(
+    text1: 'Lorem ipsum dollar sit 4',
+    text2:
+        'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
+  ),
 ];
