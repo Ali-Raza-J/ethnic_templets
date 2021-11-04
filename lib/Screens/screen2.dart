@@ -22,7 +22,7 @@ class Screen2 extends StatelessWidget {
           mainAxisSpacing: 5,
           staggeredTileBuilder: (index) =>
               index % 22 == 0 || index % 22 == 10 || index % 22 == 17
-                  ? const StaggeredTile.count(12, 8.2)
+                  ? const StaggeredTile.count(12, 8)
                   : index == 1
                       ? const StaggeredTile.count(12, 3)
                       : index % 22 == 1 && index != 1
@@ -36,12 +36,12 @@ class Screen2 extends StatelessWidget {
                                   index % 22 == 19 ||
                                   (index + 1) % 22 == 19 ||
                                   (index - 1) % 22 == 19
-                              ? const StaggeredTile.count(4, 8.2)
+                              ? const StaggeredTile.count(4, 7.2)
                               : index % 22 == 5 ||
                                       index % 22 == 13 ||
                                       index % 22 == 21
-                                  ? const StaggeredTile.count(12, 8.2)
-                                  : const StaggeredTile.count(6, 8.2),
+                                  ? const StaggeredTile.count(12, 9)
+                                  : const StaggeredTile.count(6, 9),
           itemBuilder: (context, index) {
             // model = myproduct2[index];
             return index % 22 == 0 || index % 22 == 10 || index % 22 == 17
@@ -233,11 +233,11 @@ class Screen2 extends StatelessWidget {
         Column(
           children: [
             SizedBox(
-              height: 260,
+              // height: 260,
               // width: double.infinity,
               child: Image.asset(
                 image!,
-                fit: BoxFit.fill,
+                // fit: BoxFit.fill,
               ),
             ),
             const SizedBox(height: 12),
